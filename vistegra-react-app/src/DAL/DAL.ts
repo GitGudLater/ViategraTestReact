@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Config } from '../models/config/config.type';
 import { Fix } from '../models/config/fix.type';
 import { Frame } from '../models/config/frame.type';
 import { Material } from '../models/config/materials.type';
@@ -16,6 +17,13 @@ export const getData = async (): Promise<Data[]> => {
 } 
 
 //TODO: replace multiple effect with one and fetching configs from store
+
+export const getConfigs = async (): Promise<Config[]> => {
+    let configs: Config[] = [];
+    await axios.get(configUrl).then(resp => configs = resp.data);
+    return configs;
+}
+
 export const getMaterials = async (): Promise<Material[]> => {
     let configs: Material[] = [];
     await axios.get(configUrl).then(resp => resp.data.forEach((config:any) => {if(config.type === "material"){configs.push(config as Material)}}));

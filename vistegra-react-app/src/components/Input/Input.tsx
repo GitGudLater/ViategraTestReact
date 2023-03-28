@@ -1,18 +1,26 @@
+import axios from "axios";
 import { FC, useEffect, useState } from "react";
-import { getFrame, getMaterials, getSize } from "../../DAL/DAL";
+import { useSelector } from "react-redux";
+import { getConfigs, getFrame, getMaterials, getSize } from "../../DAL/DAL";
+import { Config } from "../../models/config/config.type";
 import { Frame } from "../../models/config/frame.type";
 import { Material } from "../../models/config/materials.type";
 import { Size } from "../../models/config/size.type";
+import { useAppSelector, useAppDispatch } from "../../store/store.hooks";
 import './Input.scss';
 
 export const Input:FC = () => {
+    const dispatch = useAppDispatch()
     const [materials, setMaterials] = useState<Material[]>([]);
     const [frame, setFrames] = useState<Frame[]>([]);
     const [size, setSize] = useState<Size[]>([]);
+    const [configs, setConfigs] = useState<Config[]>([])
 
     useEffect(() => {getMaterials().then(materials => setMaterials(materials))},[setMaterials])
     useEffect(() => {getFrame().then(frames => setFrames(frames))},[setFrames])
     useEffect(() => {getSize().then(sizes => setSize(sizes))}, [setSize])
+    //useEffect(() => {}, [])
+
 
     return (
         <section className="input__container">
