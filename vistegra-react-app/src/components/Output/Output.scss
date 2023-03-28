@@ -1,0 +1,10 @@
+@use "../../App.scss";
+
+.output {
+    flex: 0 1 43%;
+    &__container{
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 10px;
+    }
+}
