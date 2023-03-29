@@ -11,7 +11,7 @@ const configState = (state: RootState) => state.configs;
 
 export const configEntitySelectors = configAdapter.getSelectors(configState)
 
-
+// TODO: replace for each with filter array method
 const selectSize = createSelector(configEntitySelectors.selectAll, ( configs) => {
   let filteredConfigs: Size[] = [];
   configs.forEach((config:Config) => {if(config.type === "size"){filteredConfigs.push({...config} as Size)}})

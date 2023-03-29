@@ -7,6 +7,8 @@ import { useAppDispatch } from "../../store/store.hooks";
 import './Input.scss';
 
 export const Input:FC = () => {
+    //TODO: implement products list and link it with calculator using reactive approach
+    
     const dispatch = useAppDispatch()
     const materialsConfigs = useSelector(configSelectors.selectMaterial);
     const frameConfigs = useSelector(configSelectors.selectFrame);
