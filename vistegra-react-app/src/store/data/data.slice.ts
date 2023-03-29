@@ -12,11 +12,11 @@ export const dataSlice = createSlice({
   initialState: dataAdapter.getInitialState({
     loading: 'idle',
     filter: {
-      width: 1,
-      length: 1,
-      frame: 1,
+      width: 0,
+      length: 0,
+      frame: 0,
       material: '',
-      fixPerUnit: 5,
+      fixPerUnit: 0,
       pipe: {} as Data,
       selectedList: {} as Data,
     } as DataFilterProps
