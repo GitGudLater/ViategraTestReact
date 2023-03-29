@@ -3,7 +3,7 @@ import { Config } from '../../models/config/config.type'
 import { fetchConfigs } from './config.thunk'
 
 export const configAdapter = createEntityAdapter<Config>({
-    selectId: (config) => config.key,
+    selectId: (config) => config.type + ' ' + config.key,
 })
 
 export const configSlice = createSlice({
@@ -16,7 +16,13 @@ export const configSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchConfigs.fulfilled, (state, action:PayloadAction<Config[]>) => {
         configAdapter.setAll(state, action.payload);
-        state.loading = 'fullfilled';
+        state.loading = 'fulfilled';
+    });
+    builder.addCase(fetchConfigs.rejected, (state) => {
+      state.loading = 'rejected';
+    });
+    builder.addCase(fetchConfigs.pending, (state) => {
+      state.loading = 'pending';
     })
 },
 })
