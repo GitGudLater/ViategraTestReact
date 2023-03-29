@@ -1,11 +1,16 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { bl } from "../../BL/BL";
+import { FilterProps } from "../../models/data/filter.props";
 import { RootState } from "../store";
 import { dataAdapter } from "./data.slice";
 
 const dataState = (state: RootState) => state.data;
 
 export const dataEntitySelectors = dataAdapter.getSelectors(dataState);
+
+const selectFilterParams = createSelector(dataState, (state) => {
+  return {material: state.filter.material} as FilterProps;
+})
 
 const selectFixes = createSelector(dataEntitySelectors.selectAll, (fixes) => {
   return fixes.filter(fix => fix.type === 'fix');
@@ -49,6 +54,7 @@ const selectCellAxisLength = createSelector(dataState, (store) => {
 })
 
 export const dataSelectors = {
+  selectFilterParams,
   selectFixes,
   selectPipes,
   selectLists,

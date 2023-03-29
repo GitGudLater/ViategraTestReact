@@ -14,11 +14,11 @@ export const Filter:FC = () => {
     const frameConfigs = useSelector(configSelectors.selectFrame);
     const sizeConfigs = useSelector(configSelectors.selectSize);
     const fixConfigs = useSelector(configSelectors.selectFix);
-    const [materialsDataList, setMaterialsDataList] = useState<Data[]>(useSelector(dataEntitySelectors.selectAll))
+    const materialsDataList = useSelector(dataSelectors.selectAllSelectableMaterials);
+
 
     const setMaterialConfig= (selectedMaterial: string) => {
         dispatch(dataActions.setMaterial(selectedMaterial));
-        setMaterialsDataList(useSelector(dataSelectors.selectAllFilteredMaterials));
     }
 
     const setFixConfig= (selectedMaterial: string) => {
@@ -31,12 +31,10 @@ export const Filter:FC = () => {
     const SetMaterialDependencies = (selectedMaterial: string) => {
         setMaterialConfig(selectedMaterial);
         setFixConfig(selectedMaterial);
-        setMaterialsDataList(useSelector(dataSelectors.selectAllFilteredMaterials));
     }
 
     const setFrameConfig= (selectedFrame: number) => {
         dispatch(dataActions.setFrame(selectedFrame));
-        setMaterialsDataList(useSelector(dataSelectors.selectAllFilteredMaterials));
     }
 
     const setSizeConfig = (size: number, axis: string) => {
