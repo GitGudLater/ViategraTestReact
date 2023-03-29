@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
 import { getConfigs } from "../../DAL/DAL"
 import { Config } from "../../models/config/config.type";
 
