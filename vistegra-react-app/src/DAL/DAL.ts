@@ -8,7 +8,6 @@ const dataUrl = '../assets/data.json';
 export const getData = async (): Promise<Data[]> => {
     let materials: Data[] = [];
     await axios.get(dataUrl).then(resp => materials = resp.data);
-    console.log(materials);
     return materials;
 } 
 
