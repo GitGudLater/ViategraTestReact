@@ -11,7 +11,7 @@ const selectFixes = createSelector(dataEntitySelectors.selectAll, (fixes) => {
   return fixes.filter(fix => fix.type === 'fix');
 });
 
-const selectPipes = createSelector(dataState, dataEntitySelectors.selectAll, (state, pipes) => {
+const selectPipes = createSelector(dataEntitySelectors.selectAll, (pipes) => {
   return pipes.filter(pipe => pipe.type === 'pipe');
 }); 
 

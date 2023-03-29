@@ -40,6 +40,9 @@ export const dataSlice = createSlice({
     setMaterial(state, action: PayloadAction<string>) {
       state.filter.material = action.payload;
     },
+    setFix(state, action: PayloadAction<number>) {
+      state.filter.fixPerUnit = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchData.fulfilled, (state, action:PayloadAction<Data[]>) => {
