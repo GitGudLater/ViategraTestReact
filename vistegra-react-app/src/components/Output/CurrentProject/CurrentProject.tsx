@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { dataSelectors } from "../../../store/data/data.selectors";
+import { shippingCartActions } from "../../../store/shipping-cart/shipping-cart.slice";
 import { useAppDispatch } from "../../../store/store.hooks";
 
 export const CurrentProject:FC = () => {
@@ -8,6 +9,10 @@ export const CurrentProject:FC = () => {
     const blueprintData = useSelector(dataSelectors.selectProjectBlueprintParams);
     const paymentCost = (quantity: number, cost: number) => {
         return quantity * cost;
+    }
+
+    const SetProject = () => {
+        dispatch(shippingCartActions.setProject(blueprintData));
     }
 
     return (
@@ -29,6 +34,9 @@ export const CurrentProject:FC = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div>
+                <button onClick={() => SetProject()}>Создать проект</button>
             </div>
         </section>
     );

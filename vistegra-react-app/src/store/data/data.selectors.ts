@@ -19,7 +19,7 @@ const selectFixes = createSelector(dataEntitySelectors.selectAll, (fixes) => {
   return fixes.filter(fix => fix.type === 'fix');
 });
 
-const selectFix = createSelector(dataEntitySelectors.selectAll, (fixes) => {
+const selectFix = createSelector(selectFixes, (fixes) => {
   return fixes.find((fix, index) => fix.name === 'Саморез' || index === 0);
 });
 
