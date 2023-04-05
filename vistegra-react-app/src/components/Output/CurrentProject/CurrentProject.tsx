@@ -1,12 +1,16 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { dataSelectors } from "../../../store/data/data.selectors";
+import { shippingCartSelectors } from "../../../store/shipping-cart/shipping-cart.selectors";
 import { shippingCartActions } from "../../../store/shipping-cart/shipping-cart.slice";
 import { useAppDispatch } from "../../../store/store.hooks";
+import './CurrentProject.scss';
 
 export const CurrentProject:FC = () => {
     const dispatch = useAppDispatch();
+    const configs = useSelector(dataSelectors.selectFilterParams);
     const blueprintData = useSelector(dataSelectors.selectProjectBlueprintParams);
+    const isProjectReady = useSelector(shippingCartSelectors.selectProjectStatus);
     const paymentCost = (quantity: number, cost: number) => {
         return quantity * cost;
     }
@@ -15,28 +19,134 @@ export const CurrentProject:FC = () => {
         dispatch(shippingCartActions.setProject(blueprintData));
     }
 
+    const checkProject = (): boolean => {
+        const { fix, list, frame, pipe, material, width, length} = isProjectReady;
+        return fix && list && frame && pipe && material && width && length ; 
+    }
+
     return (
         <section className="project__container">
-            <div className="project__element grid">
-                { blueprintData.materials.map( material => (
-                    <div>
-                        <div>
-                            {material.material.name}
-                        </div>
-                        <div>
-                            {material.material.unit}
-                        </div>
-                        <div>
-                            {material.materialQuantity}
-                        </div>
-                        <div>
-                            {paymentCost(material.materialQuantity, material.material.price as number)}
-                        </div>
-                    </div>
-                ))}
+            <div className="project__configs">
+                { isProjectReady.material ? 
+                <div className="project__configs__selected">
+                    Материал Выбран: {configs.material}
+                </div> : 
+                <div className="project__configs__missed">
+                    Выберите Материал
+                </div>}
+                { isProjectReady.frame ? 
+                <div className="project__configs__selected">
+                    Каркас Выбран: {configs.frame}
+                </div> : 
+                <div className="project__configs__missed">
+                    Выберите каркас
+                </div>}
+                { isProjectReady.length ? 
+                <div className="project__configs__selected">
+                    Установлена Длинна: {configs.length}
+                </div> : 
+                <div className="project__configs__missed">
+                    Установите Длинну
+                </div>}
+                { isProjectReady.width ? 
+                <div className="project__configs__selected">
+                    Установлена Ширина: {configs.width}
+                </div> : 
+                <div className="project__configs__missed">
+                    Установите Ширину
+                </div>}
             </div>
-            <div>
-                <button onClick={() => SetProject()}>Создать проект</button>
+            <div className="project__materials">
+                {
+                    isProjectReady.list ? 
+                    <div className="list">
+                        <div>
+                            {blueprintData.list.material.name}
+                        </div>
+                        <div>
+                            единица измерения в {blueprintData.list.material.unit}
+                        </div>
+                        <div>
+                            количество {blueprintData.list.materialQuantity}
+                        </div>
+                        <div>
+                            итого {paymentCost(blueprintData.list.materialQuantity, blueprintData.list.material.price as number)} руб
+                        </div>
+                    </div> : 
+                    <div className="missed">
+                        Для завершения детали нехватает листа
+                    </div>
+                }
+                {
+                    isProjectReady.pipe ? 
+                    <div className="pipe">
+                        <div>
+                            {blueprintData.pipe.material.name}
+                        </div>
+                        <div>
+                            единица измерения в {blueprintData.pipe.material.unit}
+                        </div>
+                        <div>
+                            количество {blueprintData.pipe.materialQuantity}
+                        </div>
+                        <div>
+                            итого {paymentCost(blueprintData.pipe.materialQuantity, blueprintData.pipe.material.price as number)} руб
+                        </div>
+                    </div> : 
+                    <div className="missed">
+                        Для завершения детали нехватает трубы
+                    </div>
+                }
+                {
+                    isProjectReady.fix ? 
+                    <div className="fix">
+                        <div>
+                            {blueprintData.fix.material.name}
+                        </div>
+                        <div>
+                            единица измерения в {blueprintData.fix.material.unit}
+                        </div>
+                        <div>
+                            количество {blueprintData.fix.materialQuantity}
+                        </div>
+                        <div>
+                            итого {paymentCost(blueprintData.fix.materialQuantity, blueprintData.fix.material.price as number)} руб
+                        </div>
+                    </div> : 
+                    <div className="missed">
+                        Для завершения детали нехватает крепежа
+                    </div>
+                }
+            </div>
+            <div className="project__calculations">
+                { isProjectReady.width && isProjectReady.length && isProjectReady.frame && isProjectReady.pipe ?
+                    <div>
+                        <div className="project__calculations-field">
+                            Площадь детали {blueprintData.field} м2
+                        </div>
+                        <div className="project__calculations-axis">
+                            Соотношение сторон изделия {blueprintData.cell.xAxisLength} x {blueprintData.cell.yAxisLength} м2
+                        </div>
+                    </div>: 
+                    <div>
+                        Установите размеры, трубу и каркас
+                    </div>
+                }
+                {isProjectReady.list && isProjectReady.pipe && isProjectReady.fix ? 
+                    <div className="project__calculations-price">
+                        Общая стоимость материалов {blueprintData.price} руб.
+                    </div> :
+                    <div>
+                        Для расчёта результата необходимо выбрать все необходимые материалы
+                    </div>
+                }
+            </div>
+            <div className="project__btn">
+                { checkProject() ? 
+                <button className="project__btn-ready" onClick={() => SetProject()}>Создать проект</button>:
+                <div className="project__btn-error">
+                    Не все настройки установлены    
+                </div>}
             </div>
         </section>
     );

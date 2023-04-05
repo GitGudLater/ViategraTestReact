@@ -11,7 +11,7 @@ export const Input:FC = () => {
     useEffect(() => {dispatch(fetchData())}, []);
 
     return (
-        <div>
+        <div className="input-component">
             <Filter/>
         </div>
     );

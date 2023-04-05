@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useSelector } from "react-redux";
-import { Data } from "../../../models/data/data.type";
 import { configSelectors } from "../../../store/configs/config.selectors";
 import { dataEntitySelectors, dataSelectors } from "../../../store/data/data.selectors";
 import { dataActions } from "../../../store/data/data.slice";
+import { shippingCartActions } from "../../../store/shipping-cart/shipping-cart.slice";
 import { useAppDispatch } from "../../../store/store.hooks";
 import { MaterialsList } from "../MaterialsList/MaterialsList";
 import "./Filter.scss";
@@ -14,36 +14,56 @@ export const Filter:FC = () => {
     const frameConfigs = useSelector(configSelectors.selectFrame);
     const sizeConfigs = useSelector(configSelectors.selectSize);
     const fixConfigs = useSelector(configSelectors.selectFix);
-    const materialsDataList = useSelector(dataSelectors.selectAllSelectableMaterials);
+    const materialsDataList = useSelector(dataEntitySelectors.selectAll);
 
+    const setMaterialStatus = () => {
+        dispatch(shippingCartActions.setMaterial())
+    }
+
+    const setFrameStatus = () => {
+        dispatch(shippingCartActions.setFrame())
+    }
+
+    const setLengthStatus = () => {
+        dispatch(shippingCartActions.setLength())
+    }
+
+    const setWidthStatus = () => {
+        dispatch(shippingCartActions.setWidth())
+    }
 
     const setMaterialConfig= (selectedMaterial: string) => {
         dispatch(dataActions.setMaterial(selectedMaterial));
+        setMaterialStatus();
     }
 
     const setFixConfig= (selectedMaterial: string) => {
         fixConfigs.forEach(fix => {
             if(fix.key === selectedMaterial) 
-                dispatch(dataActions.setFix(fix.value));
+                dispatch(dataActions.setFixPerUnit(fix.value));
         })
     };
 
     const SetMaterialDependencies = (selectedMaterial: string) => {
         setMaterialConfig(selectedMaterial);
         setFixConfig(selectedMaterial);
+        setMaterialStatus();
     }
 
     const setFrameConfig= (selectedFrame: number) => {
         dispatch(dataActions.setFrame(selectedFrame));
+        setFrameStatus();
     }
 
     const setSizeConfig = (size: number, axis: string) => {
         switch(axis) {
             case 'length':
                 dispatch(dataActions.setLength(size));
+                setLengthStatus();
                 break;
             case 'width':
                 dispatch(dataActions.setWidth(size));
+                setWidthStatus();
                 break;
             default:
                 break;
@@ -51,9 +71,12 @@ export const Filter:FC = () => {
     }
 
     return (
-        <div>
-            <section className="input__container filter">
-                <div className="input__element material">
+        <div className="filter-component">
+            <section className="filter-component__selector-container">
+                <div className="filter-component__material-label">
+                    Материал
+                </div>
+                <div className="filter-component__material-configs">
                     { materialsConfigs.map( (config,index) => (
                         <div key={index}>
                             <input type="radio" name='material' value={config.key} onChange={() => SetMaterialDependencies(config.key)}/>
@@ -61,7 +84,10 @@ export const Filter:FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className="input__element size">
+                <div className="filter-component__size-label">
+                    Размеры
+                </div>
+                <div className="filter-component__size-configs">
                     { sizeConfigs.map( (config, index) => (
                         <div key={index}>
                             <input type="number" 
@@ -73,7 +99,10 @@ export const Filter:FC = () => {
                         </div>
                     ))}
                 </div>
-                <div className="input__element frame">
+                <div className="filter-component__frame-label">
+                    Каркас
+                </div>
+                <div className="filter-component__frame-configs">
                     { frameConfigs.map( (config, index) => (
                         <div key={index}>
                             <input type="radio" name='frame' value={config.step} onChange={() => setFrameConfig(config.step)}/>
@@ -82,7 +111,7 @@ export const Filter:FC = () => {
                     ))}
                 </div>
             </section>
-            <div>
+            <div className="filter-component__material-list">
                 <MaterialsList materials={materialsDataList}/>
             </div>
         </div>

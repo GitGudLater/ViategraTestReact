@@ -17,13 +17,15 @@ export const dataSlice = createSlice({
       frame: 0,
       material: '',
       fixPerUnit: 0,
-      pipe: {} as Data,
-      selectedList: {} as Data,
+      pipe: {name: 'undefined'} as Data,
+      selectedList: {name: 'undefined'} as Data,
+      fix: {name: 'undefined'} as Data
     } as DataFilterProps
   }),
   reducers: {
     setList(state, action: PayloadAction<Data>) {
       state.filter.selectedList = action.payload;
+      state.filter.material = action.payload.material as string;
     },
     setPipe(state, action: PayloadAction<Data>) {
       state.filter.pipe = action.payload;
@@ -40,8 +42,11 @@ export const dataSlice = createSlice({
     setMaterial(state, action: PayloadAction<string>) {
       state.filter.material = action.payload;
     },
-    setFix(state, action: PayloadAction<number>) {
+    setFixPerUnit(state, action: PayloadAction<number>) {
       state.filter.fixPerUnit = action.payload;
+    },
+    setFix(state, action: PayloadAction<Data>) {
+      state.filter.fix = action.payload;
     }
   },
   extraReducers: (builder) => {

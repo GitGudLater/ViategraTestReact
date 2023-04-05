@@ -6,6 +6,7 @@ export interface DataFilterProps {
     material: string;
     frame: number;
     selectedList: Data;
+    fix: Data;
     fixPerUnit: number;
     pipe: Data;
 }

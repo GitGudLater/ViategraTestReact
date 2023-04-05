@@ -12,7 +12,8 @@ const dataState = (state: RootState) => state.data;
 export const dataEntitySelectors = dataAdapter.getSelectors(dataState);
 
 const selectFilterParams = createSelector(dataState, (state) => {
-  return {material: state.filter.material} as FilterProps;
+  return {
+    ...state.filter} as FilterProps;
 })
 
 const selectFixes = createSelector(dataEntitySelectors.selectAll, (fixes) => {
@@ -72,19 +73,18 @@ const selectProjectBlueprintParams = createSelector(
   selectListCount, 
   selectPipesLength, 
   selectFixCount, 
-  selectFix,
-  (state, field, cell, listQuantity, pipeLength, FixQuantity, fix) => {
-  const materials: ProjectMaterials[] = [];
-  materials.push(
-    {material: state.filter.selectedList, materialQuantity:listQuantity},
-    {material: state.filter.pipe, materialQuantity: pipeLength},
-    {material: fix as Data, materialQuantity:FixQuantity}
-  );
+  (state, field, cell, listQuantity, pipeLength, FixQuantity) => {
+  const list = {material: state.filter.selectedList, materialQuantity:listQuantity};
+  const fix = {material: state.filter.fix, materialQuantity:FixQuantity};
+  const pipe = {material: state.filter.pipe, materialQuantity: pipeLength};
   const project: Project = {
     id:Date.now().toLocaleString(),
     field: field,
     cell: cell,
-    materials: materials
+    list,
+    fix,
+    pipe,
+    price: bl.setMaterialPrice(list) + bl.setMaterialPrice(fix) + bl.setMaterialPrice(pipe)
   }
   return project;
 })

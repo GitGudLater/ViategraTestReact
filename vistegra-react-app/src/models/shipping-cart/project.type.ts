@@ -4,6 +4,9 @@ import { ProjectMaterials } from "./project-materials.type";
 export interface Project {
     id: string;
     field: number;
+    price: number;
     cell: Cell;
-    materials: ProjectMaterials[];
+    list: ProjectMaterials;
+    fix: ProjectMaterials;
+    pipe: ProjectMaterials;
 }

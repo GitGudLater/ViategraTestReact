@@ -1,11 +1,17 @@
 import { Cell } from "../models/data/cell-axis-length.type";
 import { Data } from "../models/data/data.type";
+import { MaterialListProps } from "../models/data/material-list.props";
+import { ProjectMaterials } from "../models/shipping-cart/project-materials.type";
 
 
 const setListCount = (length:number, width: number, list: Data): number => {
     const lengthCount = Math.ceil(length/1);
     const widthCount = Math.ceil(width/ (list.width as number))
     return lengthCount * widthCount;
+}
+
+const setMaterialPrice = (material: ProjectMaterials): number =>  {
+    return material.materialQuantity * (material.material.price as number);
 }
 
 const setFrameField = (length:number, width: number): number => {
@@ -45,5 +51,6 @@ export const bl = {
     setFrameField,
     setFixCount,
     setPipeLength,
-    setCellAxisLength
+    setCellAxisLength,
+    setMaterialPrice
 }

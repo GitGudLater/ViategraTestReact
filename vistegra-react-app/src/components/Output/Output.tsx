@@ -6,10 +6,10 @@ import { ShippingCart } from "./ShippingCart/ShippingCart";
 export const Output:FC = () => {
     return (
         <section className="output__container">
-            <div className="output__element table">
+            <div className="output__project">
                 <CurrentProject/>
             </div>
-            <div>
+            <div className="output__cart">
                 <ShippingCart/>
             </div>
         </section>

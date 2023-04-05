@@ -1,0 +1,76 @@
+.project__container {
+    color: white;
+    box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+    background-color: rgba(0, 88, 241, 0.633);
+
+    .project__btn {
+        padding: 10px;
+        &-error {
+            background: rgba(241, 16, 0, 0.751);
+            color: white;
+            box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+            padding: 10px;
+            cursor: default;
+        }
+        &-ready {
+            background: rgba(0, 241, 36, 0.751);
+            color: white;
+            box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+    .project__configs {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-start;
+        gap: 10px;
+        transition: all 0.3s;
+        transition-timing-function: ease-out;
+
+        &__selected {
+            flex: 0 0 auto;
+            background: rgba(0, 241, 36, 0.751);
+            color: white;
+            box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+            padding: 10px;
+            cursor: default;
+        }
+        &__missed {
+            flex: 0 0 auto;
+            background: rgba(241, 16, 0, 0.751);
+            color: white;
+            box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+            padding: 10px;
+            cursor: default;
+        }
+    }
+    .project__materials {
+        flex: 0 0;
+        display: flex;
+        flex-flow: row nowrap;
+        margin: 5px;
+        gap: 10px;
+        justify-content: center;
+
+        .list, .fix, .pipe {
+            width: 30%;
+            box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+            background-color: rgba(0, 88, 241, 0.633);
+            display: flex;
+            flex-flow: column nowrap;
+            cursor: default;
+            padding: 3px;
+        }
+
+        .missed {
+            width: 100px;
+            box-shadow: 0px 0px 3px 2px rgba(93, 90, 90, 0.35);
+            background: rgba(241, 16, 0, 0.751);
+            display: flex;
+            flex-flow: column wrap;
+            cursor: default;
+            padding: 3px;
+        }
+    }
+}

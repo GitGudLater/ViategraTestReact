@@ -1,9 +1,9 @@
-import { produceWithPatches } from "immer";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { shippingCartEntitySelectors } from "../../../store/shipping-cart/shipping-cart.selectors";
 import { shippingCartActions } from "../../../store/shipping-cart/shipping-cart.slice";
 import { useAppDispatch } from "../../../store/store.hooks";
+import './ShippingCart.scss';
 
 export const ShippingCart:FC = () => {
     const dispatch = useAppDispatch();
@@ -17,22 +17,30 @@ export const ShippingCart:FC = () => {
         dispatch(shippingCartActions.removeShippingCart());
     }
     return (
-        <section className="shippingCart__container">
-            <div className="shippingCart__element table">
+        <section className="shipping-cart__container">
+            <div className="shipping-cart__table">
                 {shippingCart.map((project, key) => (
-                    <div key={key}>
+                    <div key={key} className="shipping-cart__table__bill">
                         <div>
-                            {project.id}
+                            проект №{project.id}
                         </div>
                         <div>
-                            <button onClick={() => deleteProject(project.id)}>удалить проект</button>
+                            стоимость {project.price} руб
+                        </div>
+                        <div>
+                            <button className="delete" onClick={() => deleteProject(project.id)}>удалить проект</button>
                         </div>
                     </div>
                 ))}
             </div>
-            <div>
-                <button onClick={() => deleteCart()}>Очистить корзину</button>
-            </div>
+            {shippingCart.length > 0 ? 
+                <div className="shipping-cart__reset">
+                    <button className="delete" onClick={() => deleteCart()}>Очистить корзину</button>
+                </div>:
+                <div className="shipping-cart__empty">
+                    Корзина пуста
+                </div>
+            }
         </section>
     );
 }
