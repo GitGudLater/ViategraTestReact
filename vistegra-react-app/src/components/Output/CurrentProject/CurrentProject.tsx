@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useSelector } from "react-redux";
 import { bl } from "../../../BL/BL";
 import { ProjectMaterials } from "../../../models/shipping-cart/project-materials.type";
+import { configSelectors } from "../../../store/configs/config.selectors";
 import { dataSelectors } from "../../../store/data/data.selectors";
 import { shippingCartSelectors } from "../../../store/shipping-cart/shipping-cart.selectors";
 import { shippingCartActions } from "../../../store/shipping-cart/shipping-cart.slice";
@@ -13,6 +14,8 @@ export const CurrentProject:FC = () => {
     const configs = useSelector(dataSelectors.selectFilterParams);
     const blueprintData = useSelector(dataSelectors.selectProjectBlueprintParams);
     const isProjectReady = useSelector(shippingCartSelectors.selectProjectStatus);
+    const frameConfigs = useSelector(configSelectors.selectFrame);
+
     const paymentCost = (material: ProjectMaterials) => {
         return bl.setMaterialPrice(material)
     }
@@ -24,6 +27,11 @@ export const CurrentProject:FC = () => {
     const checkProject = (): boolean => {
         const { fix, list, frame, pipe, material, width, length} = isProjectReady;
         return fix && list && frame && pipe && material && width && length ; 
+    }
+
+    const setFrameName = (frame: number):string => {
+        const frameConfig = frameConfigs.find((config) => config.step === frame );
+        return frameConfig ? frameConfig.name : 'неустановленный в системе каркас';
     }
 
     return (
@@ -38,21 +46,21 @@ export const CurrentProject:FC = () => {
                 </div>}
                 { isProjectReady.frame ? 
                 <div className="project__configs__selected">
-                    Каркас Выбран: {configs.frame}
+                    Каркас Выбран: {setFrameName(configs.frame)}
                 </div> : 
                 <div className="project__configs__missed">
                     Выберите каркас
                 </div>}
                 { isProjectReady.length ? 
                 <div className="project__configs__selected">
-                    Установлена Длинна: {configs.length}
+                    Установлена Длинна: {configs.length} м
                 </div> : 
                 <div className="project__configs__missed">
                     Установите Длинну
                 </div>}
                 { isProjectReady.width ? 
                 <div className="project__configs__selected">
-                    Установлена Ширина: {configs.width}
+                    Установлена Ширина: {configs.width} м
                 </div> : 
                 <div className="project__configs__missed">
                     Установите Ширину
