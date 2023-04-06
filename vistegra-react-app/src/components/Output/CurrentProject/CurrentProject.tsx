@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { useSelector } from "react-redux";
+import { bl } from "../../../BL/BL";
+import { ProjectMaterials } from "../../../models/shipping-cart/project-materials.type";
 import { dataSelectors } from "../../../store/data/data.selectors";
 import { shippingCartSelectors } from "../../../store/shipping-cart/shipping-cart.selectors";
 import { shippingCartActions } from "../../../store/shipping-cart/shipping-cart.slice";
@@ -11,8 +13,8 @@ export const CurrentProject:FC = () => {
     const configs = useSelector(dataSelectors.selectFilterParams);
     const blueprintData = useSelector(dataSelectors.selectProjectBlueprintParams);
     const isProjectReady = useSelector(shippingCartSelectors.selectProjectStatus);
-    const paymentCost = (quantity: number, cost: number) => {
-        return quantity * cost;
+    const paymentCost = (material: ProjectMaterials) => {
+        return bl.setMaterialPrice(material)
     }
 
     const SetProject = () => {
@@ -64,13 +66,10 @@ export const CurrentProject:FC = () => {
                             {blueprintData.list.material.name}
                         </div>
                         <div>
-                            единица измерения в {blueprintData.list.material.unit}
+                            количество {blueprintData.list.materialQuantity} {blueprintData.list.material.unit}
                         </div>
                         <div>
-                            количество {blueprintData.list.materialQuantity}
-                        </div>
-                        <div>
-                            итого {paymentCost(blueprintData.list.materialQuantity, blueprintData.list.material.price as number)} руб
+                            итого {paymentCost(blueprintData.list)} руб
                         </div>
                     </div> : 
                     <div className="missed">
@@ -84,13 +83,10 @@ export const CurrentProject:FC = () => {
                             {blueprintData.pipe.material.name}
                         </div>
                         <div>
-                            единица измерения в {blueprintData.pipe.material.unit}
+                            количество {blueprintData.pipe.materialQuantity} {blueprintData.pipe.material.unit}
                         </div>
                         <div>
-                            количество {blueprintData.pipe.materialQuantity}
-                        </div>
-                        <div>
-                            итого {paymentCost(blueprintData.pipe.materialQuantity, blueprintData.pipe.material.price as number)} руб
+                            итого {paymentCost(blueprintData.pipe)} руб
                         </div>
                     </div> : 
                     <div className="missed">
@@ -104,13 +100,10 @@ export const CurrentProject:FC = () => {
                             {blueprintData.fix.material.name}
                         </div>
                         <div>
-                            единица измерения в {blueprintData.fix.material.unit}
+                            количество {blueprintData.fix.materialQuantity} {blueprintData.fix.material.unit}
                         </div>
                         <div>
-                            количество {blueprintData.fix.materialQuantity}
-                        </div>
-                        <div>
-                            итого {paymentCost(blueprintData.fix.materialQuantity, blueprintData.fix.material.price as number)} руб
+                            итого {paymentCost(blueprintData.fix)} руб
                         </div>
                     </div> : 
                     <div className="missed">

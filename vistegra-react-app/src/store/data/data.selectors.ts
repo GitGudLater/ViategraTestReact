@@ -1,8 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { bl } from "../../BL/BL";
-import { Data } from "../../models/data/data.type";
 import { FilterProps } from "../../models/data/filter.props";
-import { ProjectMaterials } from "../../models/shipping-cart/project-materials.type";
 import { Project } from "../../models/shipping-cart/project.type";
 import { RootState } from "../store";
 import { dataAdapter } from "./data.slice";
