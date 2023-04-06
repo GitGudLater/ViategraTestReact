@@ -74,7 +74,7 @@ export const CurrentProject:FC = () => {
                             {blueprintData.list.material.name}
                         </div>
                         <div>
-                            количество {blueprintData.list.materialQuantity} {blueprintData.list.material.unit}
+                            количество {blueprintData.list.materialQuantity}
                         </div>
                         <div>
                             итого {paymentCost(blueprintData.list)} руб
