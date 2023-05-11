@@ -3,11 +3,23 @@
 }
 
 .app {
-  padding: 10px;
   &__container {
+    padding: 30px;
+    height: 100%;
+
     display: flex;
     flex-flow: row wrap;
-    margin: 10px;
     gap: 15px;
   }
+}
+
+.parallax-bkg{
+  position: absolute;
+  transform: scale(1.2);
+  height: 100%;
+  filter: blur(2px);
+}
+
+.parallax {
+  z-index: 99;
 }
